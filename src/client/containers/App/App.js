@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import * as styles from './App.css';
-import {enterChat} from "../../actions";
+import {enterChat, sendChatMessage} from "../../actions";
 import Welcome from '../../components/Welcome/Welcome';
 import Messages from '../../components/Messages/Messages';
 import MessageInput from '../../components/MessageInput/MessageInput';
+import shortId from 'shortid';
 
 class App extends React.Component {
 
@@ -14,14 +15,25 @@ class App extends React.Component {
 
         this.state = {
             username: "",
-            showChat: false
+            showChat: false,
+            messageInput: "",
+            refreshInputKey: shortId.generate()
         };
 
         this.onStart = this.onStart.bind(this);
+        this.onSend = this.onSend.bind(this);
     }
 
     onStart() {
         this.props.dispatch(enterChat({username: this.state.username}));
+    }
+
+    onSend() {
+        this.props.dispatch(sendChatMessage({
+            message: this.state.messageInput,
+            username: this.state.username
+        }));
+        this.setState({messageInput: "", refreshInputKey: shortId.generate()});
     }
 
     render() {
@@ -37,7 +49,10 @@ class App extends React.Component {
                 </div>) :
             <div className={styles.chatWrapper}>
                 <Messages items={messages}/>
-                <MessageInput/>
+                <MessageInput onMessageInputChange={(event, messageInput) => this.setState({messageInput})}
+                              onSend={this.onSend}
+                              key={this.state.refreshInputKey}
+                />
             </div>;
     }
 }
@@ -50,8 +65,8 @@ export function mapStateToProps(state) {
     const chatState = state.chat;
 
     return {
-        // inChat: chatState.get("inChat")
-        inChat: true,
+        inChat: chatState.get("inChat"),
+        // inChat: true,
         messages: chatState.get("messages")
     };
 }

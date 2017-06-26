@@ -9,24 +9,31 @@ const express = require('express'),
 app.use(express.static('public'));
 app.set('port', 8000);
 
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
     console.log('a user connected');
-    socket.on('disconnect', function(){
+    socket.on('disconnect', function () {
         console.log('user disconnected');
     });
 
-    socket.on('ENTER_CHAT', function(message){
-        try{
+    socket.on('ENTER_CHAT', function (message) {
+        try {
             const {username} = JSON.parse(message);
             console.log('User entered chat: ' + username);
         }
-        catch (error){
+        catch (error) {
             console.error(error);
         }
     });
 
-    socket.on('chat message', function(msg){
-        console.log('message: ' + msg);
+    socket.on('CHAT_MESSAGE', function (msg) {
+        try {
+            const {username, content} = JSON.parse(msg);
+            console.log(`User ${username} said: ${content}`);
+            socket.broadcast.emit('INCOMING_MESSAGE', msg);
+        }
+        catch (error) {
+            console.error(error);
+        }
     });
 });
 

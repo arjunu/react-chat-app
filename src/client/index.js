@@ -9,7 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 injectTapEventPlugin();
 
-const store = configureStore();
+export const store = configureStore();
 
 render(
     <Provider store={store}>
