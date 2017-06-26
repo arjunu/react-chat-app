@@ -1,22 +1,24 @@
-import {ACTION_SOCKET_CONNECT, ACTION_SOCKET_DISCONNECT, ACTION_SOCKET_SEND, URL_SOCKET} from "./constants";
+import {ACTION_ENTER_CHAT, URL_SOCKET, ACTION_SEND_CHAT_MESSAGE} from "./constants";
 import {call, fork, take, cancel, put} from 'redux-saga/effects';
 import {socket} from './index';
 import io from 'socket.io-client';
+import {onChatEnterSuccess} from "./actions";
 
 function* socketSend(socket) {
-//noinspection InfiniteLoopJS
+    //noinspection InfiniteLoopJS
     while (true) {
-        const {payload} = yield take(ACTION_SOCKET_SEND);
-        socket.emit('ENTER_CHAT', {message: payload.message, username: payload.username});
+        const {payload} = yield take(ACTION_SEND_CHAT_MESSAGE);
+        socket.emit('CHAT_MESSAGE', {message: payload.message, username: payload.username});
     }
 }
 
 function* watcher() {
     //noinspection InfiniteLoopJS
     while (true) {
-        let {payload} = yield take(ACTION_SOCKET_CONNECT);
+        let {payload} = yield take(ACTION_ENTER_CHAT);
         const socket = io(URL_SOCKET);
-        socket.emit('ENTER_CHAT', {username: payload.username});
+        socket.emit('ENTER_CHAT', JSON.stringify({username: payload.username}));
+        yield put(onChatEnterSuccess());
 
         yield fork(socketSend);
     }
