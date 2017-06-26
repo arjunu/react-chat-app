@@ -22,6 +22,8 @@ const Messages = ({items}) => (
     </List>
 );
 
-Messages.propTypes = {};
+Messages.propTypes = {
+    items: PropTypes.object
+};
 
 export default Messages;
