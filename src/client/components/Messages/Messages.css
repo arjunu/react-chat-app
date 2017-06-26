@@ -1,0 +1,10 @@
+.alignRight {
+    text-align: right;
+}
+
+.list {
+    padding: 0;
+    max-height: calc(100% - 50px);
+    overflow-y: scroll;
+    height: calc(100% - 50px);
+}

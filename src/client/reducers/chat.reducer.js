@@ -9,7 +9,10 @@ export const createReducerFromObject = (reducerFunctions, initialState) => {
 };
 
 const initialState = fromJS({
-    inChat: false
+    inChat: false,
+    messages: [
+        {content: "Hello", title: "Arjun U", incoming: true}
+    ]
 });
 
 const reducerFunctions = {

@@ -5,6 +5,7 @@ import * as styles from './App.css';
 import {enterChat} from "../../actions";
 import Welcome from '../../components/Welcome/Welcome';
 import Messages from '../../components/Messages/Messages';
+import MessageInput from '../../components/MessageInput/MessageInput';
 
 class App extends React.Component {
 
@@ -25,16 +26,19 @@ class App extends React.Component {
 
     render() {
 
-        const {inChat} = this.props;
+        const {inChat, messages} = this.props;
 
-        return (
-            <div className={styles.wrapper}>
-                {!inChat && <Welcome onUsernameChange={(username) => this.setState({username})}
-                                     onStartClick={this.onStart}
-                                     startDisabled={!this.state.username}
-                />}
-            </div>
-        );
+        return !inChat ? (
+                <div className={styles.welcomeWrapper}>
+                    <Welcome onUsernameChange={(username) => this.setState({username})}
+                             onStartClick={this.onStart}
+                             startDisabled={!this.state.username}
+                    />
+                </div>) :
+            <div className={styles.chatWrapper}>
+                <Messages items={messages}/>
+                <MessageInput/>
+            </div>;
     }
 }
 
@@ -46,7 +50,9 @@ export function mapStateToProps(state) {
     const chatState = state.chat;
 
     return {
-        inChat: chatState.get("inChat")
+        // inChat: chatState.get("inChat")
+        inChat: true,
+        messages: chatState.get("messages")
     };
 }
 

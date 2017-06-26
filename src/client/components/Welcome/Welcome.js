@@ -14,7 +14,7 @@ const Welcome = ({onUsernameChange, startDisabled, onStartClick}) => (
         />
         <RaisedButton className={styles.start}
                       disabled={startDisabled}
-                      primary={true}
+                      primary
                       label="Start Chat"
                       onClick={onStartClick}
         />
