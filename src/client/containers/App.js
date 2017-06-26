@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as styles from './App.css';
+import {connectSocket} from "../actions";
 
 const Welcome = ({onUsernameChange, startDisabled}) => (
     <div>
@@ -30,6 +31,10 @@ export default class App extends React.Component {
         this.state = {
             username: ""
         };
+    }
+
+    componentWilMount(){
+        this.props.dispatch(connectSocket());
     }
 
     render() {

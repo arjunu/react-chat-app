@@ -1,23 +1,24 @@
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import reducer from './reducers';
-import saga from './sagas';
+import createReducer from './reducers';
+import sagas from './sagas';
 
 export default function configureStore(initialState) {
     const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(
-        reducer, initialState, applyMiddleware(
-            sagaMiddleware
-        )
-    );
-    // sagaMiddleware.run(saga);
 
-    if (module.hot) {
-        module.hot.accept('./reducers', () => {
-            const nextRootReducer = require('./reducers').default;
-            store.replaceReducer(nextRootReducer);
-        });
-    }
+    const composeEnhancers =
+        process.env.NODE_ENV !== 'production' &&
+        typeof window === 'object' &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+            window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
+
+    const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
+
+    const store = createStore(
+        createReducer(), initialState, enhancer
+    );
+
+    sagaMiddleware.run(sagas);
 
     return store;
 }

@@ -8,7 +8,6 @@ export const createReducerFromObject = (reducerFunctions, initialState) => {
 };
 
 const initialState = fromJS({
-    users: []
 });
 
 const reducerFunctions = {
