@@ -8,6 +8,11 @@ const MessageInput = ({onSend, onMessageInputChange, disableSend}) => (
         <TextField className={styles.input}
                    hintText="Enter message"
                    onChange={onMessageInputChange}
+                   onKeyDown={(event) => {
+                       if (event.keyCode === 13) {
+                           onSend(event.target.value);
+                       }
+                   }}
         />
         <RaisedButton label="Send"
                       primary

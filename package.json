@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/server",
     "client": "node ./dev.server.js",
-    "build": "NODE_ENV=production webpack --display-error-details --config webpack.config.js --progress",
+    "build": "cross-env NODE_ENV=production webpack --display-error-details --config webpack.config.js --progress",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "classnames": "^2.2.5",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.28.4",
     "express": "^4.15.3",
     "html-webpack-plugin": "^2.29.0",
