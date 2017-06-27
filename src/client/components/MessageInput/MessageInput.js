@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as styles from './MessageInput.css';
 
-const MessageInput = ({onSend, onMessageInputChange}) => (
+const MessageInput = ({onSend, onMessageInputChange, disableSend}) => (
     <div>
         <TextField className={styles.input}
                    hintText="Enter message"
@@ -12,6 +12,7 @@ const MessageInput = ({onSend, onMessageInputChange}) => (
         <RaisedButton label="Send"
                       primary
                       onClick={onSend}
+                      disabled={disableSend}
         />
     </div>
 );

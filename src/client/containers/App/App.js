@@ -52,6 +52,7 @@ class App extends React.Component {
                 <MessageInput onMessageInputChange={(event, messageInput) => this.setState({messageInput})}
                               onSend={this.onSend}
                               key={this.state.refreshInputKey}
+                              disableSend={!this.state.messageInput}
                 />
             </div>;
     }
